@@ -42,7 +42,7 @@ void merge_files(const char *file1_name, const char *file2_name, const char *fil
             Tenreg e1 = buf1.records[j1];
             Tenreg e2 = buf2.records[j2];
             Tenreg e;
-            //  s8ir fihm
+            //  the smallest one
             if (e1.cle <= e2.cle) {
                 e = e1;
                 j1++;
@@ -50,14 +50,14 @@ void merge_files(const char *file1_name, const char *file2_name, const char *fil
                 e = e2;
                 j2++;
             }
-            // Write buf3 fi file3 if it is full
+            // Write buf3 in file3 if it is full
             if (j3 >= MAXR_REC) {
                 buf3.NB = j3;
                 write_block(file3, &buf3);
                 buf3.NB = 0;
                 j3 = 0;
             }
-             // nplacie fi buf3
+             // place it in buf3
             buf3.records[j3] = e;
             j3++;
         } else {
@@ -77,10 +77,9 @@ void merge_files(const char *file1_name, const char *file2_name, const char *fil
             }
         }
     }
-    // ntaakdou esque rah complete
+    // check if it is complete
     Tbloc *buf = buf1_loaded ? &buf1 : &buf2;
     int j = buf1_loaded ? j1 : j2;
-    //wtf is this part????
     while (j < buf->NB) {
         buf3.records[j3] = buf->records[j];
         j3++;
